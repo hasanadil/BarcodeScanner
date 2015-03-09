@@ -8,18 +8,20 @@
 
 import UIKit
 
-class ViewController: UIViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+class ViewController: UIViewController, BarcodeScannerDelegate {
+    
+    @IBOutlet weak var cameraPreviewView: UIView?
+    var barcodeScanner: BarcodeScanner?
+    
+    override func viewDidLayoutSubviews() {
+        if self.barcodeScanner == nil {
+            self.barcodeScanner = BarcodeScanner(view: self.view, delegate: self)
+        }
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    //MARK: BarcodeScannerDelegate
+    
+    func didScanBarcode(barcode: String) {
+        UIAlertView(title: "Scanned!", message: barcode, delegate: nil, cancelButtonTitle: "OK").show()
     }
-
-
 }
-
